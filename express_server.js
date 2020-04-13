@@ -2,13 +2,17 @@ const express = require("express");
 const app = express();
 const PORT = 8080;
 const bodyParser = require("body-parser");
+const randomString = require("randomstring");
 
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.set("view engine", "ejs");
 
-const generateRandomString = function() {
-
+const generateRandomString = function()  {
+  randomString.generate({
+    length : 6,
+    charset : 'alphanumeric'
+  });
 };
 
 const urlDatabase = {
@@ -50,3 +54,14 @@ app.get("/urls/:shortURL", (req,res) => {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+// const generateRandomString = function() {
+//   let randomString = "";
+//   const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+//   const stringLength = 6;
+//   for (let i = 0; i < stringLength; i++) {
+//     const randomNum = Math.floor(Math.random() * chars.length);
+//     randomString += chars.substring(randomNum, randomNum + 1);
+//   }
+//   return randomString;
+// };
