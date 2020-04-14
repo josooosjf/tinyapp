@@ -1,67 +1,36 @@
-const express = require("express");
-const app = express();
-const PORT = 8080;
+const express = require('express');
 const bodyParser = require("body-parser");
-const randomString = require("randomstring");
-const urlDatabase = require("./src/data/urlDatabase");
+// const generateRandomString = require("./src/utils/generateRandomString");
+// const urlDatabase = require("./src/data/urlDatabase");
+const path = require('path');
+const urlRouter = require('./src/routes/urlRoutes');
 
-app.use(bodyParser.urlencoded({extended: true}));
+const app = express();
+
 
 app.set("view engine", "ejs");
 
-const generateRandomString = function()  {
-  return randomString.generate({
-    length : 6,
-    charset : 'alphanumeric'
-  });
-};
+// Setting the path where to point the view engine
+app.set('views', path.join(__dirname, 'src/views'));
 
 
 
-app.get("/", (req,res) => {
-  res.send("Hello!");
-});
-
-app.get("/urls.json", (req,res) => {
-  res.json(urlDatabase);
-});
-
-app.get("/hello", (req, res) => {
-  res.send("<html><body>Hello <b>World</b></body></html>\n");
-});
-
-app.get("/urls", (req, res) => {
-  let templateVars = {urls : urlDatabase};
-  res.render("urls_index", templateVars);
-});
-
-app.get("/urls/new", (req,res) => {
-  res.render("urls_new");
-});
-
-app.post("/urls", (req,res) => {
-  const randomStr = generateRandomString();
-  urlDatabase[randomStr] = req.body.longURL;
-  res.status(201).redirect("/urls");
-});
+app.use(bodyParser.urlencoded({extended: true}));
 
 
-app.post("/urls/:shortURL/delete", (req,res) => {
-  delete urlDatabase[req.params.shortURL];
-  res.redirect("/urls");
-});
+// app.get("/urls/:shortURL", (req,res) => {
+//   let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
+//   res.render("urls_show", templateVars);
+// });
 
-app.get("/u/:shortURL", (req,res) => {
-  const longURL = urlDatabase[req.params.shortURL];
-  res.redirect(longURL);
-});
 
-app.get("/urls/:shortURL", (req,res) => {
-  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
-  res.render("urls_show", templateVars);
-});
+app.use('/urls', urlRouter);
+
+const PORT = 8080;
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
+
+module.exports = app;
