@@ -10,7 +10,7 @@ exports.getNew = (req,res) => {
   res.render("urls_new");
 };
 
-// Not redirection to /urls/:shortURL
+
 exports.createNew = (req,res) => {
   const randomStr = generateRandomString();
   urlDatabase[randomStr] = req.body.longURL;

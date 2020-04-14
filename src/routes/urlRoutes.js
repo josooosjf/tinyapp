@@ -8,21 +8,24 @@ module.exports = router;
 router
   .route('/')
   .get(urlController.getHome)
-  .post(urlController.createNew)
+  .post(urlController.createNew);
 
 router
   .route('/new')
-  .get(urlController.getNew)
+  .get(urlController.getNew);
 
 router
   .route('/:shortURL/delete')
-  .post(dataController.delete)
+  .post(dataController.delete);
 
 router
   .route('/:shortURL')
   .get(urlController.getOne)
+  .post(dataController.updateShortURL);
 
 router
   .route('/u/:shortURL')
-  .get(urlController.redirect)
+  .get(urlController.redirect);
+
+  
 
