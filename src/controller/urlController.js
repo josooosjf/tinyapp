@@ -10,11 +10,14 @@ exports.getNew = (req,res) => {
   res.render("urls_new");
 };
 
+// Not redirection to /urls/:shortURL
 exports.createNew = (req,res) => {
   const randomStr = generateRandomString();
   urlDatabase[randomStr] = req.body.longURL;
-  res.status(201).redirect(`/urls`);
+  res.status(201).redirect(`/urls/${randomStr}`);
 };
+
+
 
 exports.redirect = (req,res) => {
   const longURL = urlDatabase[req.params.shortURL];
@@ -26,3 +29,4 @@ exports.getOne = (req,res) => {
   res.render("urls_show", templateVars);
 };
 
+// add statuses
