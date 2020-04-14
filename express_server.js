@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
 const generateRandomString = function()  {
-  randomString.generate({
+  return randomString.generate({
     length : 6,
     charset : 'alphanumeric'
   });
@@ -42,8 +42,14 @@ app.get("/urls/new", (req,res) => {
 });
 
 app.post("/urls", (req,res) => {
-  console.log(req.body);
-  res.send("Ok");
+  const randomStr = generateRandomString();
+  urlDatabase[randomStr] = req.body.longURL;
+  res.status(201).redirect("/urls");
+});
+
+app.get("/u/:shortURL", (req,res) => {
+  const longURL = urlDatabase[req.params.shortURL];
+  res.redirect(longURL);
 });
 
 app.get("/urls/:shortURL", (req,res) => {
@@ -55,13 +61,3 @@ app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
-// const generateRandomString = function() {
-//   let randomString = "";
-//   const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-//   const stringLength = 6;
-//   for (let i = 0; i < stringLength; i++) {
-//     const randomNum = Math.floor(Math.random() * chars.length);
-//     randomString += chars.substring(randomNum, randomNum + 1);
-//   }
-//   return randomString;
-// };
