@@ -3,8 +3,9 @@ const bodyParser = require("body-parser");
 const path = require('path');
 const urlRouter = require('./src/routes/urlRoutes');
 const cookieParser = require("cookie-parser");
-const loginRouter = require('./src/routes/loginRouter');
 const userRouter = require('./src/routes/userRoutes');
+const loginRouter = require('./src/routes/loginRouter');
+// const lookupUserByID = require('./src/utils/lookUpUserById');
 
 
 const app = express();
@@ -13,14 +14,26 @@ app.use(cookieParser());
 
 app.set("view engine", "ejs");
 
+//! middlewrre to revisit
+// const findUser = (req,res,next) => {
+//   const userId = req.cookies.user_id;
+//   req.user = lookupUserByID(userId);
+//   next();
+// };
+// app.use(findUser());
+
 // * Setting the path where to point the view engine
 app.set('views', path.join(__dirname, 'src/views'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 
+
+app.use(loginRouter);
+
 app.use('/urls', urlRouter);
 
 app.use('/user', userRouter);
+
 
 
 

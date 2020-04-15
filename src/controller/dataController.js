@@ -1,4 +1,5 @@
 const urlDatabase = require('../data/urlDatabase');
+const lookUpUserbyId = require('../utils/lookUpUserById');
 
 exports.delete = (req,res) => {
   delete urlDatabase[req.params.shortURL];
@@ -11,9 +12,8 @@ exports.updateShortURL = (req, res) => {
 };
 
 exports.loginName = (req,res) => {
-  const username = req.body.username;
-  res.cookie("username", username);
-  res.redirect('/urls');
+  const user = lookUpUserbyId(req.cookies.user_id);
+  res.cookie("user_id", {user}).redirect('/urls');
 
 };
 

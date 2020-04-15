@@ -1,18 +1,17 @@
 const urlDatabase = require('../data/urlDatabase');
 const generateRandomString = require('../utils/generateRandomString');
+const userDatabase = require('../data/usersDatabase');
+const lookUpUserbyId = require('../utils/lookUpUserById');
 
 exports.getHome = (req, res) => {
-  let username;
-  if (req.cookies.username !== undefined) {
-    username = req.cookies.username;
-  }
-  
-  let templateVars = {urls : urlDatabase, username};
+  const user = lookUpUserbyId(req.cookies.user_id);
+  const templateVars = {user, urls: urlDatabase};
   res.render("urls_index", templateVars);
 };
 
 exports.getNew = (req,res) => {
-  res.render("urls_new");
+  const user = lookUpUserbyId(req.cookies.user_id);
+  res.render("urls_new", {user});
 };
 
 
@@ -29,6 +28,19 @@ exports.redirect = (req,res) => {
 };
 
 exports.getOne = (req,res) => {
-  let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
+  const user = lookUpUserbyId(req.cookies.user_id);
+  let templateVars = {
+    shortURL: req.params.shortURL,
+    longURL: urlDatabase[req.params.shortURL],
+    user
+  };
   res.render("urls_show", templateVars);
+};
+
+exports.registerPage = (req,res) => {
+  if (req.cookies.user_id) {
+    res.redirect('/');
+  } else {
+    res.render("register_page",{user : undefined});
+  }
 };
