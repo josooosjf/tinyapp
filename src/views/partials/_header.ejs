@@ -20,10 +20,12 @@
       </form>
     <% } else { %> 
         <form action="/user/logout" method="POST">
-          <div class="form-inline">
-            <div class="card border-dark mb-3  mr-sm-2">
-              <div class="card-body text-dark bg-success">
-                You are logged in as: <%= username %>
+          <div class="form-inline mr-sm-2">
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                <h4>Logged In As: <%= username %></h4> 
+              </div>
+            </div>
               </div>
             </div>
             <button class="btn btn-outline-light">logout</button>
@@ -31,6 +33,5 @@
         </form>
 
       <% } %>
-    </div>
   </nav>
 </header>
