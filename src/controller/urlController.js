@@ -2,7 +2,12 @@ const urlDatabase = require('../data/urlDatabase');
 const generateRandomString = require('../utils/generateRandomString');
 
 exports.getHome = (req, res) => {
-  let templateVars = {urls : urlDatabase};
+  let username;
+  if (req.cookies.username !== undefined) {
+    username = req.cookies.username;
+  }
+  
+  let templateVars = {urls : urlDatabase, username};
   res.render("urls_index", templateVars);
 };
 
@@ -18,7 +23,6 @@ exports.createNew = (req,res) => {
 };
 
 
-
 exports.redirect = (req,res) => {
   const longURL = urlDatabase[req.params.shortURL];
   res.redirect(longURL);
@@ -28,5 +32,3 @@ exports.getOne = (req,res) => {
   let templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   res.render("urls_show", templateVars);
 };
-
-// add statuses

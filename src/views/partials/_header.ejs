@@ -10,5 +10,27 @@
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
     </div>
+    <div>
+      <% if (!username) { %>
+      <form  action="/user/login" method="POST">
+        <div class="form-inline">
+        <input class="form-control mr-sm-2" type="text" name="username" placeholder="username" aria-label="username">
+        <button class="btn btn-outline-light">Login</button>
+      </div>
+      </form>
+    <% } else { %> 
+        <form action="/user/logout" method="POST">
+          <div class="form-inline">
+            <div class="card border-dark mb-3  mr-sm-2">
+              <div class="card-body text-dark bg-success">
+                You are logged in as: <%= username %>
+              </div>
+            </div>
+            <button class="btn btn-outline-light">logout</button>
+          </div>
+        </form>
+
+      <% } %>
+    </div>
   </nav>
 </header>
