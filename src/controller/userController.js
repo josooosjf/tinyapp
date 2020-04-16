@@ -3,6 +3,7 @@ const randomNumberGenerator = require('../utils/generateRandomString');
 const getUserByEmail = require('../utils/getUserbyEmail');
 const getUserByName = require('../utils/getUserbyName');
 const getUserByPassword = require('../utils/getUserPassword');
+const bcrypt = require('bcrypt');
 
 
 exports.login = (req,res) => {
@@ -28,7 +29,7 @@ exports.logout = (req,res) => {
 exports.registerUser = (req,res) => {
   const name = req.body.id;
   const email = req.body.email;
-  const password = req.body.password;
+  const password = bcrypt.hashSync(req.body.password,10);
   const id = randomNumberGenerator();
   
   if (getUserByEmail(email) && getUserByName(name)) {

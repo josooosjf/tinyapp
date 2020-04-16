@@ -3,9 +3,8 @@ const bodyParser = require("body-parser");
 const path = require('path');
 const urlRouter = require('./src/routes/urlRoutes');
 const cookieParser = require("cookie-parser");
-const userRouter = require('./src/routes/userRoutes');
+// const userRouter = require('./src/routes/userRoutes');
 const loginRouter = require('./src/routes/loginRouter');
-// const lookupUserByID = require('./src/utils/lookUpUserById');
 
 
 const app = express();

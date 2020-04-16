@@ -2,7 +2,6 @@ const urlDatabase = require('../data/urlDatabase');
 const generateRandomString = require('../utils/generateRandomString');
 const lookUpUserbyId = require('../utils/lookUpUserById');
 const urlsforUser = require('../utils/urlsforUser');
-const userIsLoggedIn = require('../utils/checkUserisLoggedIn');
 // const usersURLS = require('../data/usersURLS');
 
 
