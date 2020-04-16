@@ -1,9 +1,20 @@
 const urlDatabase = require('../data/urlDatabase');
 const lookUpUserbyId = require('../utils/lookUpUserById');
+const urlsforUser = require('../utils/urlsforUser');
 
 exports.delete = (req,res) => {
-  delete urlDatabase[req.params.shortURL];
-  res.status(200).redirect("/urls");
+  const values = Object.values(urlDatabase);
+
+  for (let value of values) {
+    console.log(value.userID);
+    if (req.cookies.user_id === value.userID) {
+      delete urlDatabase[req.params.shortURL];
+      res.status(200).redirect("/");
+      return;
+    }
+  }
+  res.status(403).send('this link does not belong to you! you cannot delete it');
+  return;
 };
 
 exports.updateShortURL = (req, res) => {

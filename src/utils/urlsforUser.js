@@ -10,10 +10,11 @@ const urlsforUser = function(id) {
   let urlsforUser = {};
   for (let urlID in urlDatabase) {
     if (urlDatabase[urlID].userID === id) {
-      urlsforUser[id] = urlDatabase[urlID];
+      urlsforUser[urlID] = urlDatabase[urlID];
     }
   }
   return urlsforUser;
 };
 
 module.exports = urlsforUser;
+

@@ -3,6 +3,7 @@ const generateRandomString = require('../utils/generateRandomString');
 const lookUpUserbyId = require('../utils/lookUpUserById');
 const urlsforUser = require('../utils/urlsforUser');
 const userIsLoggedIn = require('../utils/checkUserisLoggedIn');
+// const usersURLS = require('../data/usersURLS');
 
 
 exports.getHome = (req, res) => {
@@ -11,8 +12,7 @@ exports.getHome = (req, res) => {
 
     res.redirect('/login');
   } else {
-    const usersURLS = urlsforUser(user.id);
-    console.log(usersURLS);
+    let usersURLS = urlsforUser(user.id);
     const templateVars = {user, urls: usersURLS};
     res.status(200).render("urls_index", templateVars);
   }
@@ -23,7 +23,6 @@ exports.getHome = (req, res) => {
 exports.getNew = (req,res) => {
   const user = lookUpUserbyId(req.cookies.user_id);
   if (user === undefined) {
-
     res.redirect('/login');
   } else {
     res.status(200).render("urls_new", {user});
@@ -33,6 +32,7 @@ exports.getNew = (req,res) => {
 
 exports.createNew = (req,res) => {
   const randomStr = generateRandomString();
+  
   urlDatabase[randomStr] = {longURL : req.body.longURL, userID: req.cookies.user_id};
   res.status(201).redirect(`/urls/${randomStr}`);
 };
