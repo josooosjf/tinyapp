@@ -2,21 +2,31 @@ const urlDatabase = require('../data/urlDatabase');
 const generateRandomString = require('../utils/generateRandomString');
 const lookUpUserbyId = require('../utils/lookUpUserById');
 const urlsforUser = require('../utils/urlsforUser');
+const userIsLoggedIn = require('../utils/checkUserisLoggedIn');
 
 
 exports.getHome = (req, res) => {
   const user = lookUpUserbyId(req.cookies.user_id);
-  
-  const templateVars = {user, urls: urlDatabase};
-  res.status(200).render("urls_index", templateVars);
+  console.log(user);
+  if (user === undefined) {
+
+    res.redirect('/login');
+  } else {
+    const templateVars = {user, urls: urlDatabase};
+    res.status(200).render("urls_index", templateVars);
+  }
   
 
 };
 
 exports.getNew = (req,res) => {
   const user = lookUpUserbyId(req.cookies.user_id);
-  
-  res.status(200).render("urls_new", {user});
+  if (user === undefined) {
+
+    res.redirect('/login');
+  } else {
+    res.status(200).render("urls_new", {user});
+  }
 };
 
 
