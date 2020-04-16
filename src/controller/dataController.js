@@ -3,7 +3,7 @@ const lookUpUserbyId = require('../utils/lookUpUserById');
 
 exports.delete = (req,res) => {
   delete urlDatabase[req.params.shortURL];
-  res.redirect("/urls");
+  res.status(200).redirect("/urls");
 };
 
 exports.updateShortURL = (req, res) => {
@@ -13,7 +13,7 @@ exports.updateShortURL = (req, res) => {
 
 exports.loginName = (req,res) => {
   const user = lookUpUserbyId(req.cookies.user_id);
-  res.cookie("user_id", {user}).redirect('/urls');
+  res.status(201).cookie("user_id", {user}).redirect('/urls');
 
 };
 

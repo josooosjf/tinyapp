@@ -17,7 +17,8 @@ loginRouter
 
 loginRouter
   .route('/login')
-  .get(userController.loginPage);
+  .get(userController.loginPage)
+  .post(userController.login);
 
 
 

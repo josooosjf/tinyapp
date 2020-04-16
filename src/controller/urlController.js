@@ -6,12 +6,12 @@ const lookUpUserbyId = require('../utils/lookUpUserById');
 exports.getHome = (req, res) => {
   const user = lookUpUserbyId(req.cookies.user_id);
   const templateVars = {user, urls: urlDatabase};
-  res.render("urls_index", templateVars);
+  res.status(200).render("urls_index", templateVars);
 };
 
 exports.getNew = (req,res) => {
   const user = lookUpUserbyId(req.cookies.user_id);
-  res.render("urls_new", {user});
+  res.status(200).render("urls_new", {user});
 };
 
 
@@ -24,7 +24,7 @@ exports.createNew = (req,res) => {
 
 exports.redirect = (req,res) => {
   const longURL = urlDatabase[req.params.shortURL];
-  res.redirect(longURL);
+  res.status(300).redirect(longURL);
 };
 
 exports.getOne = (req,res) => {
@@ -34,13 +34,13 @@ exports.getOne = (req,res) => {
     longURL: urlDatabase[req.params.shortURL],
     user
   };
-  res.render("urls_show", templateVars);
+  res.status(200).render("urls_show", templateVars);
 };
 
 exports.registerPage = (req,res) => {
   if (req.cookies.user_id) {
-    res.redirect('/');
+    res.status(300).redirect('/');
   } else {
-    res.render("register_page",{user : undefined});
+    res.status(200).render("register_page",{user : undefined});
   }
 };
