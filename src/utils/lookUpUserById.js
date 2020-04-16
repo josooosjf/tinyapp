@@ -4,4 +4,5 @@ const lookUpUser = function(userid) {
   return userDatabase[userid];
 };
 
+
 module.exports = lookUpUser;

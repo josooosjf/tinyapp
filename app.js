@@ -32,7 +32,7 @@ app.use(loginRouter);
 
 app.use('/urls', urlRouter);
 
-app.use('/user', userRouter);
+// app.use('/user', userRouter);
 
 
 

@@ -7,7 +7,13 @@ exports.delete = (req,res) => {
 };
 
 exports.updateShortURL = (req, res) => {
-  urlDatabase[req.params.shortURL] = req.body.longURL;
+  const user = lookUpUserbyId(req.cookies.user_id);
+  let templateVars = {
+    shortURL: req.params.shortURL,
+    longURL: req.body.longURL,
+    user
+  };
+  urlDatabase[req.params.shortURL] = {longURL :templateVars.longURL, userID: req.cookies.user_id};
   res.status(201).redirect(`/urls/${req.params.shortURL}`);
 };
 

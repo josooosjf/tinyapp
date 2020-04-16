@@ -22,7 +22,7 @@ exports.login = (req,res) => {
 };
 
 exports.logout = (req,res) => {
-  res.status(307).clearCookie('user_id').redirect('/urls');
+  res.status(307).clearCookie('user_id').redirect('/');
 };
 
 exports.registerUser = (req,res) => {

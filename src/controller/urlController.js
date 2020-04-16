@@ -1,20 +1,22 @@
 const urlDatabase = require('../data/urlDatabase');
 const generateRandomString = require('../utils/generateRandomString');
 const lookUpUserbyId = require('../utils/lookUpUserById');
+const urlsforUser = require('../utils/urlsforUser');
+
 
 exports.getHome = (req, res) => {
   const user = lookUpUserbyId(req.cookies.user_id);
+  
   const templateVars = {user, urls: urlDatabase};
   res.status(200).render("urls_index", templateVars);
+  
+
 };
 
 exports.getNew = (req,res) => {
   const user = lookUpUserbyId(req.cookies.user_id);
-  if (user) {
-    res.status(200).render("urls_new", {user});
-  }
-
-  res.status(201).redirect('/login');
+  
+  res.status(200).render("urls_new", {user});
 };
 
 
@@ -37,11 +39,13 @@ exports.getOne = (req,res) => {
     longURL: urlDatabase[req.params.shortURL].longURL,
     user
   };
+  urlDatabase[req.params.shortURL] = {longURL :templateVars.longURL, userID: req.cookies.user_id};
   res.status(200).render("urls_show", templateVars);
 };
 
 exports.registerPage = (req,res) => {
-  if (req.cookies.user_id) {
+  const user = lookUpUserbyId(req.cookies.user_id);
+  if (user) {
     res.status(300).redirect('/');
   } else {
     res.status(200).render("register_page",{user : undefined});
