@@ -7,12 +7,13 @@ const userIsLoggedIn = require('../utils/checkUserisLoggedIn');
 
 exports.getHome = (req, res) => {
   const user = lookUpUserbyId(req.cookies.user_id);
-  console.log(user);
   if (user === undefined) {
 
     res.redirect('/login');
   } else {
-    const templateVars = {user, urls: urlDatabase};
+    const usersURLS = urlsforUser(user.id);
+    console.log(usersURLS);
+    const templateVars = {user, urls: usersURLS};
     res.status(200).render("urls_index", templateVars);
   }
   

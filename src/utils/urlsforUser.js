@@ -8,16 +8,12 @@ const urlDatabase = require('../data/urlDatabase');
  */
 const urlsforUser = function(id) {
   let urlsforUser = {};
-  for (let userID in urlDatabase) {
-    let user = urlDatabase[userID].userID;
-    if (userDatabase[id].id === user) {
-      urlsforUser[userID] = urlDatabase[userID];
+  for (let urlID in urlDatabase) {
+    if (urlDatabase[urlID].userID === id) {
+      urlsforUser[id] = urlDatabase[urlID];
     }
   }
   return urlsforUser;
 };
 
 module.exports = urlsforUser;
-// return Object.values(urlDatabase).filter(url => url.userID === id);
-
-
