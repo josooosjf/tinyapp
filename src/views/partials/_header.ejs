@@ -18,14 +18,13 @@
         </div>
         </form>
       <% } else { %> 
-        <form action="/logout" method="POST">
-          <div class="form-inline mr-sm-2">
-            <h4 class="text-black-50">Logged In As: <%= user.email %></h4> 
+        <div class="navbar-nav mr-sm-2" >
+          <form action="/logout" method="POST">
+            <h6 class="navbar-text">Logged In As: <%= user.email %></h6> 
             <button class="btn btn-outline-light">logout</button>
-          </div>
-            
+        </div>
             </div>
-        </form>
+          </form>
       <% } %>
     </div>
   </nav>

@@ -6,6 +6,21 @@ const getUserByPassword = require('../utils/getUserPassword');
 const bcrypt = require('bcrypt');
 
 
+exports.registerUser = (req,res) => {
+  const { name, email } = req.body;
+  const password = bcrypt.hashSync(req.body.password,10);
+  const id = randomNumberGenerator();
+  
+  if (getUserByEmail(email) && getUserByName(name)) {
+    res.status(400).send("email or username is already taken");
+  } else {
+    userDataBase[id] = {id, email, password};
+    req.session.userid = id;
+    res.status(307).redirect("/");
+  }
+};
+
+
 exports.login = (req,res) => {
   const { email, password } = req.body;
   const userIdByEmail = getUserByEmail(email);
@@ -27,23 +42,10 @@ exports.login = (req,res) => {
 
 exports.logout = (req,res) => {
   req.session = null;
-  res.status(307).redirect('/');
+  res.status(307).redirect('/urls');
 };
 
-exports.registerUser = (req,res) => {
-  const name = req.body.id;
-  const email = req.body.email;
-  const password = bcrypt.hashSync(req.body.password,10);
-  const id = randomNumberGenerator();
-  
-  if (getUserByEmail(email) && getUserByName(name)) {
-    res.status(400).send("email or username is already taken");
-  } else {
-    userDataBase[id] = {id, email, password};
-    req.session.userid = id;
-    res.status(307).redirect("/");
-  }
-};
+
 
 exports.loginPage = (req,res) => {
   res.render("login_page", {user : undefined});

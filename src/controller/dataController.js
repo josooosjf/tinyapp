@@ -34,10 +34,3 @@ exports.updateShortURL = (req, res) => {
   return;
 };
 
-// exports.loginName = (req,res) => {
-//   const user = lookUpUserbyId(req.session.userid);
-//   req.session.userid = id;
-//   res.status(201).redirect('/urls');
-
-// };
-

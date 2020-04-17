@@ -3,7 +3,7 @@ const urlController = require('../controller/urlController');
 const dataController = require('../controller/dataController');
 
 const router = express.Router();
-module.exports = router;
+
 
 router
   .route('/')
@@ -26,6 +26,8 @@ router
 router
   .route('/u/:shortURL')
   .get(urlController.redirect);
+
+module.exports = router;
 
   
 
