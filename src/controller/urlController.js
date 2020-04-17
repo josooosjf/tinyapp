@@ -57,6 +57,7 @@ exports.createNew = (req,res) => {
  */
 exports.getOne = (req,res) => {
   const user = lookUpUserbyId(req.session.userid);
+  console.log('user', user);
   let templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL].longURL,
