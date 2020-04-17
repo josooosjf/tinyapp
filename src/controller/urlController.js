@@ -6,7 +6,7 @@ const urlsforUser = require('../utils/urlsforUser');
 
 
 exports.getHome = (req, res) => {
-  const user = lookUpUserbyId(req.cookies.user_id);
+  const user = lookUpUserbyId(req.session.userid);
   if (user === undefined) {
 
     res.redirect('/login');
@@ -20,7 +20,7 @@ exports.getHome = (req, res) => {
 };
 
 exports.getNew = (req,res) => {
-  const user = lookUpUserbyId(req.cookies.user_id);
+  const user = lookUpUserbyId(req.session.userid);
   if (user === undefined) {
     res.redirect('/login');
   } else {
@@ -32,7 +32,7 @@ exports.getNew = (req,res) => {
 exports.createNew = (req,res) => {
   const randomStr = generateRandomString();
   
-  urlDatabase[randomStr] = {longURL : req.body.longURL, userID: req.cookies.user_id};
+  urlDatabase[randomStr] = {longURL : req.body.longURL, userID: req.session.userid};
   res.status(201).redirect(`/urls/${randomStr}`);
 };
 
@@ -43,18 +43,18 @@ exports.redirect = (req,res) => {
 };
 
 exports.getOne = (req,res) => {
-  const user = lookUpUserbyId(req.cookies.user_id);
+  const user = lookUpUserbyId(req.session.userid);
   let templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL].longURL,
     user
   };
-  urlDatabase[req.params.shortURL] = {longURL :templateVars.longURL, userID: req.cookies.user_id};
+  urlDatabase[req.params.shortURL] = {longURL :templateVars.longURL, userID: req.session.userid};
   res.status(200).render("urls_show", templateVars);
 };
 
 exports.registerPage = (req,res) => {
-  const user = lookUpUserbyId(req.cookies.user_id);
+  const user = lookUpUserbyId(req.session.userid);
   if (user) {
     res.status(300).redirect('/');
   } else {

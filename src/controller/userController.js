@@ -9,21 +9,25 @@ const bcrypt = require('bcrypt');
 exports.login = (req,res) => {
   const { email, password } = req.body;
   const userIdByEmail = getUserByEmail(email);
-  const userIdByPassword = getUserByPassword(password);
+  
 
-  if (!userIdByEmail || !userIdByPassword) {
+  if (!userIdByEmail) {
     res.status(403).send('a user with this email or password cannot be found');
     return;
   }
   
-  if (getUserByEmail(email) === getUserByPassword(password)) {
-    res.status(201).cookie("user_id", userIdByEmail).redirect('/urls');
+  if (getUserByPassword(userIdByEmail, password)) {
+    req.session.userid = userIdByEmail.id;
+    res.status(201).redirect('/');
+    return;
   }
   
+  res.status(400).send("password is incorrect");
 };
 
 exports.logout = (req,res) => {
-  res.status(307).clearCookie('user_id').redirect('/');
+  req.session = null;
+  res.status(307).redirect('/');
 };
 
 exports.registerUser = (req,res) => {
@@ -36,7 +40,8 @@ exports.registerUser = (req,res) => {
     res.status(400).send("email or username is already taken");
   } else {
     userDataBase[id] = {id, email, password};
-    res.status(307).cookie("user_id", id).redirect("/");
+    req.session.userid = id;
+    res.status(307).redirect("/");
   }
 };
 

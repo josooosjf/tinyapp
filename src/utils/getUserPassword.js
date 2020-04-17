@@ -1,13 +1,13 @@
 const userDatabase = require('../data/usersDatabase');
 const bcrypt = require('bcrypt');
 
-const getUserbyPassword = function(password) {
-  for (let userId in userDatabase) {
-    let user = userDatabase[userId];
-    if (bcrypt.compareSync(password, user.password)) return userId;
-    console.log("user,password", user.password);
-    console.log('password paramet', password);
-  }
+const getUserbyPassword = function(userobject,password) {
+  // for (let userId in userDatabase) {
+  //   let user = userDatabase[userId];
+
+  return (bcrypt.compareSync(password, userobject.password));
+   
 };
+
 
 module.exports = getUserbyPassword;
