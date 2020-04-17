@@ -6,7 +6,6 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha",
     "start": "./node_modules/.bin/nodemon -L server.js"
-    
   },
   "repository": {
     "type": "git",
@@ -27,7 +26,8 @@
     "cookie-session": "^1.4.0",
     "ejs": "^3.0.2",
     "express": "^4.17.1",
-    "randomstring": "^1.1.5"
+    "randomstring": "^1.1.5",
+    "url-exist-sync": "^1.0.2"
   },
   "devDependencies": {
     "chai": "^4.2.0",

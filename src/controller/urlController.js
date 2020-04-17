@@ -2,6 +2,7 @@ const urlDatabase = require('../data/urlDatabase');
 const generateRandomString = require('../utils/generateRandomString');
 const lookUpUserbyId = require('../utils/lookUpUserById');
 const urlsforUser = require('../utils/urlsforUser');
+const urlExistSync = require("url-exist-sync");
 
 
 /**
@@ -57,27 +58,35 @@ exports.createNew = (req,res) => {
  */
 exports.getOne = (req,res) => {
   const user = lookUpUserbyId(req.session.userid);
-  console.log('user', user);
   let templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL].longURL,
+    error: null,
     user
   };
   urlDatabase[req.params.shortURL] = {longURL :templateVars.longURL, userID: req.session.userid};
   res.status(200).render("urls_show", templateVars);
 };
 
+/**
+ * renders the register page
+ */
 exports.registerPage = (req,res) => {
   const user = lookUpUserbyId(req.session.userid);
   if (user) {
     res.status(300).redirect('/');
   } else {
-    res.status(200).render("register_page",{user : undefined});
+    res.status(200).render("register_page",{user : undefined, error: null});
   }
 };
 
+
 exports.redirect = (req,res) => {
   const longURL = urlDatabase[req.params.shortURL].longURL;
+  if (urlExistSync(longURL) === false) {
+    res.render("urls_show", {user : undefined, error: "link does not exist"});
+    return;
+  }
   res.status(300).redirect(longURL);
 };
 

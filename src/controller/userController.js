@@ -12,7 +12,7 @@ exports.registerUser = (req,res) => {
   const id = randomNumberGenerator();
   
   if (getUserByEmail(email) && getUserByName(name)) {
-    res.status(400).send("email or username is already taken");
+    res.status(400).render("register_page", {user : undefined, error: "email or username is already taken"});
   } else {
     userDataBase[id] = {id, email, password};
     req.session.userid = id;
@@ -27,7 +27,7 @@ exports.login = (req,res) => {
   
 
   if (!userIdByEmail) {
-    res.status(403).send('a user with this email or password cannot be found');
+    res.status(403).render("login_page", {user: undefined, error: 'a user with this email or password cannot be found'});
     return;
   }
   
@@ -37,7 +37,7 @@ exports.login = (req,res) => {
     return;
   }
   
-  res.status(400).send("password is incorrect");
+  res.status(400).render("login_page", {user: undefined, error: "password is incorrect"});
 };
 
 exports.logout = (req,res) => {
@@ -48,7 +48,7 @@ exports.logout = (req,res) => {
 
 
 exports.loginPage = (req,res) => {
-  res.render("login_page", {user : undefined});
+  res.render("login_page", {user : undefined, error: null});
 
 };
 
