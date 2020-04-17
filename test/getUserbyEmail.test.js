@@ -7,12 +7,12 @@ const users = {
   "aJ48lW": {
     id: "aJ48lW",
     email: "user@example.com",
-    password: bcrypt.hashSync("purple-monkey-dinosaur",10)
+    password: "purple-monkey-dinosaur"
   },
   "234ds2": {
     id: "234ds2",
     email: "user2@example.com",
-    password: bcrypt.hashSync("dishwasher-funk",10)
+    password: "dishwasher-funk"
   }
 };
 
@@ -22,15 +22,11 @@ describe('getUserByEmail', function() {
   it('should return a user with valid email', function() {
     const user = getUserByEmail("user@example.com");
     const expectedOutput = users.aJ48lW;
-    assert.equal(user, expectedOutput);
+    // assert.deepEqual(user, expectedOutput);
+    assert.equal(user.id, expectedOutput.id);
+    assert.equal(user.email, expectedOutput.email);
+    assert.equal(bcrypt.compareSync(expectedOutput.password, user.password), true);
   });
 });
 
 
-// const getUserByEmail = function(email) {
-
-//   for (let userId in userDatabase) {
-//     let user = userDatabase[userId];
-//     if (user.email === email) return user;
-//   }
-// };

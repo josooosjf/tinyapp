@@ -1,5 +1,5 @@
 const assert = require('chai').assert;
-
+const bcrypt = require('bcrypt');
 
 const lookUpUserById = require('../src/utils/lookUpUserById');
 
@@ -20,24 +20,10 @@ const users = {
 describe('lookUpUserById', function() {
 
   it('should return the user if you give the id', function() {
-    const id = users.aJ48lW.id;
-    const user = lookUpUserById(id);
+    const user = lookUpUserById(users.aJ48lW.id);
     const expectedOutput = users.aJ48lW;
-    assert.equal(user,expectedOutput);
+    assert.equal(user.id, expectedOutput.id);
+    assert.equal(user.email, expectedOutput.email);
+    assert.equal(bcrypt.compareSync(expectedOutput.password, user.password), true);
   });
-
-
 });
-
-// const lookUpUser = function(userid) {
-//   return userDatabase[userid];
-// };
-
-// describe('getUserByEmail', function() {
-
-//   it('should return a user with valid email', function() {
-//     const user = getUserByEmail("user@example.com");
-//     const expectedOutput = users.aJ48lW;
-//     assert.equal(user, expectedOutput);
-//   });
-// });
