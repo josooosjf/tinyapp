@@ -22,10 +22,7 @@ router
   .route('/:shortURL')
   .get(urlController.getOne)
   .post(dataController.updateShortURL);
-
-router
-  .route('/u/:shortURL')
-  .get(urlController.redirect);
+  
   
 
 module.exports = router;

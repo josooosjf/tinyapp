@@ -29,6 +29,11 @@ loginRouter
   .route('/logout')
   .post(userController.logout);
 
+loginRouter
+  .route('/u/:shortURL')
+  .get(urlController.redirect);
+
+
 module.exports = loginRouter;
 
 
