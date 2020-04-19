@@ -26,6 +26,7 @@ router
 router
   .route('/u/:shortURL')
   .get(urlController.redirect);
+  
 
 module.exports = router;
 

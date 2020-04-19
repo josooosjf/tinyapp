@@ -58,14 +58,29 @@ exports.createNew = (req,res) => {
  */
 exports.getOne = (req,res) => {
   const user = lookUpUserbyId(req.session.userid);
+  const values = Object.values(urlDatabase);
+
+  console.log("this is getting the page");
   let templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL].longURL,
     error: null,
     user
   };
-  urlDatabase[req.params.shortURL] = {longURL :templateVars.longURL, userID: req.session.userid};
-  res.status(200).render("urls_show", templateVars);
+
+  for (let value of values) {
+    console.log(value.userID);
+    if (req.session.userid === value.userID) {
+      urlDatabase[req.params.shortURL] = {longURL :templateVars.longURL, userID: req.session.userid};
+      res.status(200).render("urls_show", templateVars);
+      return;
+    }
+  }
+
+
+  res.send("this is not your link");
+  return;
+  
 };
 
 /**
