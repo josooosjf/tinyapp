@@ -13,7 +13,7 @@ const urlExistSync = require("url-exist-sync");
 exports.getHome = (req, res) => {
   const user = lookUpUserbyId(req.session.userid);
 
-  if (user === undefined) {
+  if (!user) {
 
     res.redirect('/login');
 
@@ -31,7 +31,7 @@ exports.getHome = (req, res) => {
  */
 exports.getNew = (req,res) => {
   const user = lookUpUserbyId(req.session.userid);
-  if (user === undefined) {
+  if (!user) {
     res.redirect('/login');
   } else {
     res.status(200).render("urls_new", {user});
@@ -46,53 +46,37 @@ exports.getNew = (req,res) => {
  */
 exports.createNew = (req,res) => {
   const randomStr = generateRandomString();
-  
-  urlDatabase[randomStr] = {longURL : req.body.longURL, userID: req.session.userid};
+  const user = lookUpUserbyId(req.session.userid);
+
+  if (!user) {
+    res.status(400).send("please log in before editing pages");
+  }
+
+  urlDatabase[randomStr] = {shortURL : randomStr, longURL : req.body.longURL, userID: req.session.userid};
   res.status(201).redirect(`/urls/${randomStr}`);
 };
 
 /**
- * this will make a new tinyURL
+ * this will make a new A
  * for the user if they would like it
  * and than show them the page.
  */
 exports.getOne = (req,res) => {
   const user = lookUpUserbyId(req.session.userid);
-  const values = Object.values(urlDatabase);
 
-  console.log("this is getting the page");
-  let templateVars = {
-    shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL].longURL,
-    error: null,
-    user
-  };
+  const linkObj = urlDatabase[req.params.shortURL];
+ 
 
-  for (let value of values) {
-    console.log(value.userID);
-    if (req.session.userid === value.userID) {
-      urlDatabase[req.params.shortURL] = {longURL :templateVars.longURL, userID: req.session.userid};
-      res.status(200).render("urls_show", templateVars);
-      return;
-    }
-  }
-
-
-  res.send("this is not your link");
-  return;
+  if (!linkObj) return res.status(404).send("This link doesn't exist");
+  if (req.session.userid !== linkObj.userID) return res.status(403).send("this is not your link");
   
-};
-
-/**
- * renders the register page
- */
-exports.registerPage = (req,res) => {
-  const user = lookUpUserbyId(req.session.userid);
-  if (user) {
-    res.status(300).redirect('/');
-  } else {
-    res.status(200).render("register_page",{user : undefined, error: null});
-  }
+  const templateVars = {
+    ...linkObj,
+    user,
+    error: null,
+  };
+  
+  res.status(200).render("urls_show", templateVars);
 };
 
 

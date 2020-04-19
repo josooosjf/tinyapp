@@ -17,7 +17,7 @@ loginRouter
 
 loginRouter
   .route("/register")
-  .get(urlController.registerPage)
+  .get(userController.registerPage)
   .post(userController.registerUser);
 
 loginRouter

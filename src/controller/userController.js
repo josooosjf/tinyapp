@@ -3,6 +3,7 @@ const randomNumberGenerator = require('../utils/generateRandomString');
 const getUserByEmail = require('../utils/getUserbyEmail');
 const getUserByName = require('../utils/getUserbyName');
 const getUserByPassword = require('../utils/getUserPassword');
+const lookUpUserbyId = require('../utils/lookUpUserById');
 const bcrypt = require('bcrypt');
 
 
@@ -52,4 +53,15 @@ exports.loginPage = (req,res) => {
 
 };
 
+/**
+ * renders the register page
+ */
+exports.registerPage = (req,res) => {
+  const user = lookUpUserbyId(req.session.userid);
+  if (user) {
+    res.status(300).redirect('/');
+  } else {
+    res.status(200).render("register_page",{user : undefined, error: null});
+  }
+};
 

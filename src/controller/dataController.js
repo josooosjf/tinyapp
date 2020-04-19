@@ -1,5 +1,4 @@
 const urlDatabase = require('../data/urlDatabase');
-const lookUpUserbyId = require('../utils/lookUpUserById');
 
 exports.delete = (req,res) => {
   const values = Object.values(urlDatabase);
@@ -17,15 +16,14 @@ exports.delete = (req,res) => {
 
 exports.updateShortURL = (req, res) => {
   const values = Object.values(urlDatabase);
-  const user = lookUpUserbyId(req.session.userid);
-  let templateVars = {
+  const newURL = {
     shortURL: req.params.shortURL,
     longURL: req.body.longURL,
-    user
+    userID : req.session.userid
   };
   for (let value of values) {
     if (req.session.userid === value.userID) {
-      urlDatabase[req.params.shortURL] = {longURL :templateVars.longURL, userID: req.session.userid};
+      urlDatabase[newURL.shortURL] = newURL;
       res.status(201).redirect(`/urls/${req.params.shortURL}`);
       return;
     }
